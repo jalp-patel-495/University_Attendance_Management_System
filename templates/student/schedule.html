@@ -1,0 +1,57 @@
+{% extends "layouts/student_base.html" %}
+
+{% block title %}My Schedule{% endblock %}
+
+{% block student_content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">My Schedule {% if class_name %}- {{ class_name }}{% endif %}</h1>
+    </div>
+
+    <div class="row">
+        {% for day in days %}
+        <div class="col-md-6 col-xl-4 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3 bg-{{ 'primary' if schedule[day] else 'light' }}">
+                    <h6 class="m-0 font-weight-bold {{ 'text-white' if schedule[day] else 'text-primary' }}">{{ day }}</h6>
+                </div>
+                <div class="card-body">
+                    {% if schedule[day] %}
+                        <div class="timeline">
+                        {% for item in schedule[day] %}
+                            <div class="schedule-item mb-3 pb-2 border-bottom last-no-border">
+                                <h5 class="font-weight-bold text-dark mb-1">{{ item.subject }}</h5>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="small text-primary font-weight-bold">
+                                        <i class="fas fa-clock me-1"></i> {{ item.time }}
+                                    </div>
+                                    {% if item.room %}
+                                    <div class="small text-muted">
+                                        <i class="fas fa-map-marker-alt me-1"></i> {{ item.room }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4 text-muted">
+                            <i class="fas fa-calendar-times mb-2"></i>
+                            <p class="mb-0 small">No classes</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .last-no-border:last-child {
+        border-bottom: none !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+</style>
+{% endblock %}
